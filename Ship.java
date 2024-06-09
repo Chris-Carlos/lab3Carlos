@@ -13,7 +13,7 @@
 public class Ship {
     private String name;
     private int health;
-
+    public Ship() {} // Default constructor required for Jackson
     public Ship(String name, int health) {
         this.name = name;
         this.health = health;

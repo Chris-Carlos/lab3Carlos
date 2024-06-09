@@ -1,37 +1,36 @@
+// imports for jackson
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Project: Space Game
- * Purpose Details: Creating a text based adventure game.
+ * Purpose Details: Creating a serialized JSON for space game.
  * Course: IST 242 Section 611 Inter App Dev
  * Author: Christopher Carlos
- * Date Developed: 05/20/24
- * Last Date Changed: 05/26/24
- * Revision: 2
+ * Date Developed: 06/09/24
+ * Last Date Changed: 06/09/24
+ * Revision: 1
  */
-
 public class Main {
-    public static void main(String[] args) {
-// Creates game save, player name, ships, obstacles, power-ups, and enemies with health bars.
-        /**
-         * Each class is used to name and sets values to the different objects.
-         */
-        Game save = new Game("Save1");
-        Player player = new Player("Player1", 0);
-        Ship starship = new Ship("Starship", 100);
-        Obstacle asteroid = new Obstacle("Comet");
-        PowerUp shield = new PowerUp("Energy Shield", 100);
-        Enemy alienSpaceship = new Enemy("Alien Spaceship", 100);
-        Enemy pirateStarwing = new Enemy("Pirate Starwing", 100);
 
-// Print out the values using the getter methods, setter methods are located in class files.
-        /**
-         * This is where the print values will be set for each class using concatenated statements.
-         */
-        System.out.println("Game: " + save.getName());
-        System.out.println("Player: " + player.getPlayerName() + ", Score: " + player.getPlayerScore());
-        System.out.println("Ship: " + starship.getName() + ", Health: " + starship.getHealth());
-        System.out.println("Obstacle: " + asteroid.getName());
-        System.out.println("PowerUp: " + shield.getName() + ", Duration: " + shield.getDuration());
-        System.out.println("Enemy: " + alienSpaceship.getName() + ", Health: " + alienSpaceship.getHealth());
-        System.out.println("Enemy: " + pirateStarwing.getName() + ", Health: " + pirateStarwing.getHealth());
+    public static void main (String[] args) {
+        // Creating an instance of the Ship class
+        Ship ship = new Ship("Starship", 100);
+
+        // Serialization: Converting the ship object to JSON string
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String shipJson = objectMapper.writeValueAsString(ship);
+            System.out.println("Ship object serialized to JSON string:");
+            System.out.println(shipJson);
+
+            // Deserialization: Converting the JSON string back to a ship object
+            Ship deserializedShip = objectMapper.readValue(shipJson, Ship.class);
+            System.out.println("\nShip object deserialized from JSON string:");
+            System.out.println("Name: " + deserializedShip.getName());
+            System.out.println("Health: " + deserializedShip.getHealth());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }
